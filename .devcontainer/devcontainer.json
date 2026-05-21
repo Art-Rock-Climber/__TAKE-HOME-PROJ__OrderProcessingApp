@@ -1,0 +1,15 @@
+{
+    "name": "OrderProcessingApp Dev",
+    "dockerComposeFile": "../docker-compose.yaml",
+    "service": "devcontainer",
+    "workspaceFolder": "/workspace/OrderProcessingApp",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-dotnettools.csharp",
+                "ms-dotnettools.csdevkit",
+                "ms-azuretools.vscode-docker"
+            ]
+        }
+    }
+}
