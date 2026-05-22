@@ -5,5 +5,5 @@ namespace OrderService.WebApi.UseCases;
 
 public class GetOrderQuery : IRequest<OrderDto?>
 {
-    public int Id { get; set; }
+    public long Id { get; set; }
 }

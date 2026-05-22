@@ -46,37 +46,39 @@ app.UseAuthorization();
 app.MapControllers();
 
 
-// // миграции
-// using (var scope = app.Services.CreateScope())
-// {
-//     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-//     try
-//     {
-//         dbContext.Database.Migrate(); 
-//         Console.WriteLine("Database migration completed successfully");
-//     }
-//     catch (Exception ex)
-//     {
-//         Console.WriteLine($"Database migration failed: {ex.Message}");
-//         throw;
-//     }
-// }
 // миграции
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     try
     {
-        dbContext.Database.EnsureDeleted(); 
-        // Этот метод создаст БД, если её нет, но не применит миграции
-        dbContext.Database.EnsureCreated();
-        Console.WriteLine("Database ensured created successfully");
+        dbContext.Database.Migrate(); 
+        Console.WriteLine("Database migration completed successfully");
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"Database creation failed: {ex.Message}");
+        Console.WriteLine($"Database migration failed: {ex.Message}");
         throw;
     }
 }
+// // для тестов dotnet tool install --global dotnet-ef 
+// // dotnet ef migrations add InitialCreate
+// // dotnet ef database update
+// using (var scope = app.Services.CreateScope())
+// {
+//     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+//     try
+//     {
+//         dbContext.Database.EnsureDeleted(); 
+//         // Этот метод создаст БД, если её нет, но не применит миграции
+//         dbContext.Database.EnsureCreated();
+//         Console.WriteLine("Database ensured created successfully");
+//     }
+//     catch (Exception ex)
+//     {
+//         Console.WriteLine($"Database creation failed: {ex.Message}");
+//         throw;
+//     }
+// }
 
 app.Run();

@@ -4,5 +4,5 @@ namespace OrderService.WebApi.UseCases;
 
 public class DeleteOrderCommand : IRequest<bool>
 {
-    public int Id { get; set; }
+    public long Id { get; set; }
 }

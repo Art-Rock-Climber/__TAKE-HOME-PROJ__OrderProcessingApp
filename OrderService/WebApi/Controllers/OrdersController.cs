@@ -34,7 +34,7 @@ public class OrdersController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<OrderDto>> GetOrder(int id)
+    public async Task<ActionResult<OrderDto>> GetOrder(long id)
     {
         var result = await _mediator.Send(new GetOrderQuery { Id = id });
         if (result == null) return NotFound();
@@ -42,7 +42,7 @@ public class OrdersController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteOrder(int id)
+    public async Task<IActionResult> DeleteOrder(long id)
     {
         var result = await _mediator.Send(new DeleteOrderCommand { Id = id });
         if (!result) return NotFound();
