@@ -3,8 +3,12 @@ using OrderService.DataAccess.Postgres;
 using MediatR;
 
 using FluentValidation;
+
+using OrderService.WebApi.Clients;
 using OrderService.WebApi.UseCases;
 using OrderService.WebApi;
+
+using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +32,13 @@ builder.Services.AddMediatR(cfg =>
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 });
 
-
+// Refit для платежей
+builder.Services.AddRefitClient<IPaymentServiceClient>()
+    .ConfigureHttpClient(c =>
+    {
+        c.BaseAddress = new Uri(builder.Configuration["PaymentService:BaseUrl"] ?? "http://localhost:5001");
+        c.Timeout = TimeSpan.FromSeconds(2);
+    });
 
 var app = builder.Build();
 
