@@ -18,17 +18,8 @@ public class OrdersController : ControllerBase
     }
 
     [HttpPost("create")]
-    public async Task<ActionResult<OrderDto>> CreateOrder([FromBody] OrderDto request)
+    public async Task<ActionResult<OrderDto>> CreateOrder([FromBody] CreateOrderCommand command)
     {
-        var command = new CreateOrderCommand
-        {
-            ProductId = request.ProductId,
-            Amount = request.Amount,
-            EmailClient = request.EmailClient,
-            Price = request.Price,
-            PhoneNumber = request.PhoneNumber
-        };
-        
         var result = await _mediator.Send(command);
         return Ok(result);
     }

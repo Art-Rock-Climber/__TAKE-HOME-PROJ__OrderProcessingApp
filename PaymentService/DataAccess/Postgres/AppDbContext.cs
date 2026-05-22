@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using PaymentService.Models;
+using PaymentService.DataAccess.Postgres.Models;
 
-namespace PaymentService.DataAccess;
+namespace PaymentService.DataAccess.Postgres;
 
 public class AppDbContext : DbContext
 {
