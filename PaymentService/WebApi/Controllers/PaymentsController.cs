@@ -20,17 +20,17 @@ public class PaymentsController : ControllerBase
         return Created($"/api/payments/get/{result.OrderId}", result);
     }
 
-    // [HttpPut("updateStatus/{paymentId}/{status}")]
-    // public async Task<ActionResult<PaymentDto>> UpdatePaymentStatus(
-    //     long paymentId, string status, [FromBody] UpdatePaymentStatusCommand command)
-    // {
-    //     // Синхронизация параметров
-    //     command.PaymentId = paymentId;
-    //     command.Status = status;
+    [HttpPut("updateStatus/{paymentId}/{status}")]
+    public async Task<ActionResult<PaymentDto>> UpdatePaymentStatus(
+        long paymentId, bool status, [FromBody] UpdatePaymentStatusCommand command)
+    {
+        // Синхронизация параметров
+        command.PaymentId = paymentId;
+        command.Status = status;
         
-    //     var result = await _mediator.Send(command);
-    //     return result is null ? NotFound() : Ok(result);
-    // }
+        var result = await _mediator.Send(command);
+        return result is null ? NotFound() : Ok(result);
+    }
 
     [HttpGet("get/{paymentId}")]
     public async Task<ActionResult<PaymentDto>> GetPayment(long paymentId)
