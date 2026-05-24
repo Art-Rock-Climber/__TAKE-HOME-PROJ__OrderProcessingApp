@@ -40,23 +40,23 @@ public class CreatePaymentHandler : IRequestHandler<CreatePaymentCommand, Paymen
 
         _logger.LogInformation("✅ Payment saved to DB: Id={Id}", payment.Id);
 
-        // Публикация события
-        var evt = new { PaymentId = payment.Id, OrderId = payment.OrderId, Price = payment.Price, Status = payment.Status };
-        var message = new Message<string, string>
-        {
-            Key = payment.OrderId.ToString(),
-            Value = System.Text.Json.JsonSerializer.Serialize(evt)
-        };
+        // // Публикация события
+        // var evt = new { PaymentId = payment.Id, OrderId = payment.OrderId, Price = payment.Price, Status = payment.Status };
+        // var message = new Message<string, string>
+        // {
+        //     Key = payment.OrderId.ToString(),
+        //     Value = System.Text.Json.JsonSerializer.Serialize(evt)
+        // };
 
-        try
-        {
-            await _producer.ProduceAsync("payment-events", message, cancellationToken);
-            _logger.LogInformation("📤 Kafka: message sent to payment-events");
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "❌ Kafka ERROR");
-        }
+        // try
+        // {
+        //     await _producer.ProduceAsync("payment-events", message, cancellationToken);
+        //     _logger.LogInformation("📤 Kafka: message sent to payment-events");
+        // }
+        // catch (Exception ex)
+        // {
+        //     _logger.LogError(ex, "❌ Kafka ERROR");
+        // }
 
         return PaymentMapper.ToDto(payment);
     }

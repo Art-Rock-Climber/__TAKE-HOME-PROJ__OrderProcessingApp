@@ -10,11 +10,13 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, OrderDto>
 {
     private readonly AppDbContext _context;
     private readonly IPaymentServiceClient _paymentClient;
+    private readonly ILogger<CreateOrderHandler> _logger; 
 
-    public CreateOrderHandler(AppDbContext context, IPaymentServiceClient paymentClient)
+    public CreateOrderHandler(AppDbContext context, IPaymentServiceClient paymentClient, ILogger<CreateOrderHandler> logger)
     {
         _context = context;
         _paymentClient = paymentClient;
+        _logger = logger;
     }
 
     public async Task<OrderDto> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
@@ -31,15 +33,18 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, OrderDto>
         _context.Orders.Add(order);
         await _context.SaveChangesAsync(cancellationToken);
 
+        _logger.LogInformation("✅ Order saved to DB: Id={Id}", order.Id);
+
         // вызов PaymentService для резервирования
         try
         {
             await _paymentClient.ReservePaymentAsync(
                 new ReservePaymentRequest(order.Id, order.Price), cancellationToken);
+            _logger.LogInformation("✅ Payment reserved");
         }
         catch (Exception ex)
         {
-            
+            _logger.LogError(ex, "❌ PaymentService reserving ERROR");
         }
 
         return OrderMapper.ToDto(order);
