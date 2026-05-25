@@ -20,4 +20,11 @@
     <PackageReference Include="Riok.Mapperly" Version="3.6.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="OrderService.Tests\**\*.cs" />
+    <Content Remove="OrderService.Tests\**\*" />
+    <EmbeddedResource Remove="OrderService.Tests\**\*" />
+    <None Remove="OrderService.Tests\**\*" />
+  </ItemGroup>
+
 </Project>

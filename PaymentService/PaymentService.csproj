@@ -21,4 +21,11 @@
     <PackageReference Include="Confluent.Kafka" Version="2.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="PaymentService.Tests\**\*.cs" />
+    <Content Remove="PaymentService.Tests\**\*" />
+    <EmbeddedResource Remove="PaymentService.Tests\**\*" />
+    <None Remove="PaymentService.Tests\**\*" />
+  </ItemGroup>
+
 </Project>
